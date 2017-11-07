@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.19/fabric.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.19/fabric.js"></script>
+</head>
+<body>
+
+  <button id="btn">消去</button>
+  <canvas id="c" width="800" height="600" style="border:1px solid #ccc"></canvas>
+
+<script type="text/javascript">
+var InteractiveCanvas = function(cvs_id) {
+  this.cvs_id = cvs_id;
+  this.cvs = new fabric.Canvas(this.cvs_id);
+  this.img = [];
+};
+
+InteractiveCanvas.prototype.loadImg = function(url) {
+  var cvs = this.cvs;
+  var img = this.img;
+  fabric.Image.fromURL(url,
+    function(tmpimg) {
+      img[0] = tmpimg;
+      setimg = tmpimg.set({ left: 0, top: 0, angle: 0 });
+      cvs.add(setimg);
+      cvs.renderAll();
+    }
+  );
+};
+
+InteractiveCanvas.prototype.delImg = function() {
+  console.log("del");
+  this.cvs.remove(this.img[0]);
+  this.cvs.renderAll();
+};
+
+$(document).ready( function(){
+  var icvs = new InteractiveCanvas("c");
+  icvs.loadImg("http://blog.4pm.ie/wp-content/uploads/2013/07/Yahoo_Logo2.jpg");
+
+  $("#btn").click( function() {
+    console.log("click");
+    icvs.delImg();
+  });
+});
+
+</script>
+</body>
+</html>
+
